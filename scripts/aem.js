@@ -651,6 +651,25 @@ function decorateBlocks(main) {
 }
 
 /**
+ * Handles external links and PDFs to be opened in a new tab/window
+ * @param {Element} main The main element
+ */
+function decorateExternalLinks(main) {
+  main.querySelectorAll('a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href) {
+      const extension = href.split('.').pop().trim();
+      if (!href.startsWith('/')
+        && !href.startsWith('#')) {
+        if (!href.includes('xyz.com') || (extension === 'pdf')) {
+          a.setAttribute('target', '_blank');
+        }
+      }
+    }
+  });
+}
+
+/**
  * Loads a block named 'header' into header
  * @param {Element} header header element
  * @returns {Promise}
@@ -705,6 +724,7 @@ export {
   decorateBlock,
   decorateBlocks,
   decorateButtons,
+  decorateExternalLinks,
   decorateIcons,
   decorateSections,
   decorateTemplateAndTheme,
